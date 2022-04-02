@@ -1,0 +1,89 @@
+void bubble_sort(std::vector<int>& elements) {
+  for (int i=0; i<elements.size()-1; i++) {  
+    for (int k=0; k<elements.size()-1; k++) {  
+     if (elements[k] > elements[k+1]) {
+        std::swap(elements[k], elements[k+1]);
+      }
+    }
+  }
+}
+
+vector<int> merge(const vector<int>& lhs, const vector<int>& rhs)
+{
+    vector<int> ret;
+    auto left_iterator = 0;
+    auto right_iterator = 0;
+ 
+   
+    while (left_iterator != lhs.size() && right_iterator != rhs.size()) {
+        if (lhs[left_iterator] < rhs[right_iterator]) {
+            ret.push_back(lhs[left_iterator]);
+            left_iterator++;
+        }else {
+            ret.push_back(rhs[right_iterator]);
+            right_iterator++;
+        }
+    }
+    for (int i=left_iterator; i<lhs.size(); i++) {
+        ret.push_back(lhs[i]);
+    }
+    for (int i=right_iterator; i<rhs.size(); i++) {
+        ret.push_back(rhs[i]);
+    }
+    return ret;
+}
+
+vector<int> merge_sort(const vector<int>& elements) {
+    if (elements.size() <= 1) {
+        return elements;
+    }else {
+        auto middle = elements.size()/2;
+        vector<int> left{elements.begin(), elements.begin() + middle};
+        vector<int> right{elements.begin() + middle, elements.end()};
+ 
+       left = merge_sort(left);
+        right = merge_sort(right);
+
+        return merge(left, right);
+    }
+}
+
+int partition(vector<int>& elements, int left_index, int right_index)
+{
+    auto pivot = elements[left_index];
+    int i = left_index, j = right_index;
+
+    while(true) {
+        while( elements[i] <= pivot && i <= j ) ++i;
+        while( elements[j] > pivot ) --j;
+        if( i >= j ) break;
+        swap(elements[i], elements[j]);
+    }
+    swap(elements[left_index], elements[j]);
+    return j;
+}
+
+void quickSort(vector<int> & v, int inicio, int final){
+    if (inicio >= final) {
+        return;
+    }
+    else {
+        int pivot_index = partition(v, inicio, final);
+        quickSort(v, inicio, final-1);
+        quickSort(v, pivot_index+1, final);
+    }
+}
+
+void selection_sort(std::vector<int>& elements) {
+  for (int i=0; i<elements.size(); i++) { 
+    int indexMin = i;
+    for (int k=i+1; k<elements.size(); k++) {  
+   
+      if (elements[k] < elements[indexMin]) {
+        indexMin = k;
+      }
+    }
+    
+    std::swap(elements[i], elements[indexMin]);
+  }
+}
